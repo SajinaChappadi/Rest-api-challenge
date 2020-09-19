@@ -39,8 +39,9 @@ public class SparkRestApi {
 
         put("/books/:id", (request, response) -> {
             response.type("application/json");
-
+            Book existingBook = bookService.getBook(request.params(":id"));
             Book toEdit = new Gson().fromJson(request.body(), Book.class);
+            toEdit.setId(existingBook.getId());
             Book editedBook = bookService.editBook(toEdit);
 
             if (editedBook != null) {
